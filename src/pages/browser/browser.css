@@ -1,0 +1,110 @@
+#browser .navbar{
+  background-color: var(--bg-dark);
+}
+.navbar-brand{
+  display: grid;
+}
+.browser-logo #logo{
+  margin: auto 0;
+}
+
+.browser-logo #logo p{
+ display: none;
+}
+.browser-search{
+  width: 50%;
+}
+.browser-search .search.bar{
+  margin: 0;
+  width: 100% !important;
+}
+
+#results{
+  padding: 20px 5%;
+}
+
+.result-card{
+  width: 56%;
+  padding: 10px;
+}
+.result-link{
+  font-size: 0.9rem;
+  margin: 0;
+  margin-bottom: 4px;
+}
+.result-card a{
+  text-decoration: none;
+  color: var(--green);
+}
+.result-card a.thread-link{
+  color:#690505
+}
+.result-title{
+  margin: 0;
+  margin-bottom: 5px;
+  font-size: 1.7rem;
+}
+.result-card a:hover{
+  text-decoration: underline;
+}
+.result-info{
+  color: gray;
+  font-size: 0.8rem;
+}
+
+.no-results h3{
+  color: var(--green);
+}
+
+#page-selector{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 20px 10px;
+  color: var(--green);
+  background-color: var(--bg-dark);
+}
+.page-link{
+  width: max-content;
+  padding: 0 5px;
+}
+.page-link span {
+  cursor: pointer;
+}
+.page-link span:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+@media (max-width: 770px){
+  #browser .navbar{
+    flex-direction: column;
+  }
+  .browser-logo{
+    flex: 1;
+  }
+  .navbar-brand{
+    width: max-content;
+    margin: 0 !important;
+  }
+  .browser-logo #logo h1{
+    font-size: 1.2rem;
+  }
+  .browser-search{
+    width: 100%;
+    padding: 0 10px;
+    margin-left: 0 !important;
+  }
+  #browser .nav{
+    display: none;
+  }
+
+  .result-card{
+    width: 100%;
+  }
+
+  .no-results h3{
+    width: max-content;
+    margin: 0 auto;
+  }
+}

@@ -1,0 +1,138 @@
+a{
+  color: var(--green);
+}
+a:hover{
+  color:#46ce34;
+}
+.nav-link{
+  color: var(--green);
+}
+.nav-link:hover{
+  color: #46ce34;
+  text-decoration: underline;
+}
+
+#search-section{
+  background-color: var(--bg-dark);
+  height: 100vh;
+}
+
+.search-container{
+  width: 100%;
+  padding: 10% 5%;
+}
+
+#logo h1, #logo p{
+  width: max-content;
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: bold;
+  color: #23a811;
+}
+.search-container #logo h1, .search-container #logo p{
+  margin: 0 auto;
+  font-size: 3.6rem;
+}
+
+.search-container #logo p{
+  color: var(--green);
+  margin: 0 auto 30px;
+  font-size: 0.8rem;
+}
+
+[type=search]{
+  outline: none !important;
+  -webkit-appearance: none;
+}
+.search-bar{
+  height: 50px;
+  outline: 3px solid transparent;
+  padding: 0;
+  transition: all .4s;
+}
+.search-container .search-bar{
+  width: 40%;
+  margin: 0 auto;
+}
+.search-bar.focus{
+  outline-color: var(--green);
+  transition: all .4s;
+}
+.search-bar form{
+  width: 100%;
+  display: flex;
+}
+#search-bar{
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding: 0 5px;
+}
+#search-bar::placeholder{
+  font-size: 1rem;
+  color: #0000006b;
+}
+#search-bar::-webkit-search-cancel-button{
+  -webkit-appearance:none;
+  content: url(../../assets/reject.png);
+  width: 20px;
+  cursor: pointer;
+}
+#search-btn{
+  border-radius: 0px;
+  background-color: var(--green);
+  color: white;
+  padding: 5px 20px
+}
+#board{
+  border: none;
+  outline: none;
+}
+
+#about{
+  background-color: var(--bg-dark);
+  padding: 20px;
+  height: 100vh;
+}
+#about h1{
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: bold;
+  color: var(--green);
+  margin: 20px auto;
+  width: max-content;
+  font-size: 2.9rem;
+}
+#about .about-content{
+  background-color: #000000b7;
+  padding: 30px;
+}
+#about p{
+  color: white;
+}
+#about a{
+  transition: all 0.3s;
+}
+.about-footer{
+  padding: 30px 0;
+  width: max-content;
+  margin: 0 auto;
+}
+.about-footer span{
+  color: #ffffff60
+}
+.about-footer a{
+  color: inherit;
+}
+.about-footer a:hover{
+  color: white;
+}
+
+
+
+@media (max-width: 770px){
+  .nav-container{
+    margin: 0 auto 0 0 !important;
+  }
+  .search-bar{
+    width: 100% !important;
+  }
+}
