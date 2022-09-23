@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, Link } from 'react-router-dom'
 import Logo from '../../components/Logo'
 import SearchBar from '../../components/Searchbar'
 import Result from '../../components/Result'
@@ -41,7 +41,7 @@ function Browser() {
       </div>
       <div className='nav ms-auto me-3'>
         <ul className='navbar-nav'>
-          <li><a href="/about" className="nav-link">About</a></li>
+          <li><Link to="/about">About</Link></li>
         </ul>
       </div>
     </div>
