@@ -1,4 +1,5 @@
 import {useRef, useEffect, useState} from 'react'
+import { useNavigate } from 'react-router-dom'
 import { FaSearch } from "react-icons/fa"
 
 function SearchBar(){
@@ -31,6 +32,18 @@ function SearchBar(){
   const boardOnChange = e =>{
     setBoard(e.target.value)
   }
+  const navigate = useNavigate()
+  const handdlePost = (e) =>{
+    e.preventDefault()
+    const children = e.target.children
+    const board = children[0].value
+    const search = children[1].value
+    console.log(board, search)
+    navigate({
+      pathname: "/search",
+      search: `?board=${board}&q=&${search}`
+    })
+  }
 
   const getParams = () =>{
     const params = new URLSearchParams(window.location.search)
@@ -52,7 +65,7 @@ function SearchBar(){
 
   return(
     <div className='search-bar container-fluid d-flex'>
-      <form action='/search'>
+      <form onSubmit={handdlePost}>
       <select ref={boardSelect} name="board" id="board" onChange={boardOnChange}>
         <option value="all">all</option>
         <option value="a">a</option>
