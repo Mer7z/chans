@@ -10,10 +10,13 @@ function Browser() {
   const { state } = useLocation();
   const [board, setBoard] = useState('');
   const [search, setSearch] = useState('');
+  const [results, setResults] = useState([])
+  const [status, setStatus] = useState("Loading")
   var load = true;
   const onSearch = (b, q) =>{
     setBoard(b)
     setSearch(q)
+    setStatus("Loading")
     load = false
   }
 
@@ -42,23 +45,15 @@ function Browser() {
         </ul>
       </div>
     </div>
-      <Results board={board} search={search}/>
+      <Results board={board} search={search} results={results} setResults={setResults} status={status} setStatus={setStatus} />
     </div>
   )
 }
 
 export default Browser
 
-function Results({board, search}){
-
+function Results({board, search, results, setResults, status, setStatus}){
   
-
-  const [results, setResults] = useState([])
-  
-  
-  
-
-
   const sort = (array) => {
     var newArr = array;
     for (let i = 0; i < newArr.length; i++) {
@@ -84,7 +79,6 @@ function Results({board, search}){
     let sortedRes = sort(array);
     setResults(sortedRes);
   }
-  const [status, setStatus] = useState("Loading")
 
   useEffect(()=>{
     fetchResults().then(()=>setStatus("No Results")).catch(()=>setStatus("Server Error"));
