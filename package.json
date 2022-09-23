@@ -1,14 +1,13 @@
 {
   "name": "4chan-searcher",
-  "proxy": "http://localhost:8080/",
-  "homepage": "http://192.168.0.110:5173/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "gh-pages": "^4.0.0",
