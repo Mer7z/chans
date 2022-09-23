@@ -1,6 +1,7 @@
 {
   "name": "4chan-searcher",
   "private": true,
+  "homepage": "https://mer7z.github.io/chans/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

@@ -7,9 +7,9 @@ import {Routes, Route} from 'react-router-dom'
 function App() {
   return(
     <Routes>
-      <Route path='/chans/' element={<Search/>} />
-      <Route path='/chans/search' element={<Browser/>} />
-      <Route path='/chans/about' element={<About/>} />
+      <Route path='/' element={<Search/>} />
+      <Route path='/search' element={<Browser/>} />
+      <Route path='/about' element={<About/>} />
     </Routes>
   )
 }
