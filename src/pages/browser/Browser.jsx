@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { useLocation } from 'react-router-dom'
 import Logo from '../../components/Logo'
 import SearchBar from '../../components/Searchbar'
 import Result from '../../components/Result'
@@ -6,26 +7,34 @@ import './browser.css'
 import fetchApi from '../../fetchApi'
 
 function Browser() {
+  const { state } = useLocation();
+  const [board, setBoard] = useState('');
+  const [search, setSearch] = useState('');
+  var load = true;
+  const onSearch = (b, q) =>{
+    setBoard(b)
+    setSearch(q)
+    load = false
+  }
+
+  useEffect(()=>{
+    if(load){
+      setBoard(state.board)
+      setSearch(state.search)
+      load = false;
+    }
+  }, [])
+
   return (
     <div id='browser'>
-      <Navbar/>
-      <Results/>
-    </div>
-  )
-}
-
-export default Browser
-
-function Navbar(){
-  return(
-    <div className='navbar navbar-expand-lg'>
+      <div className='navbar navbar-expand-lg'>
       <div className='browser-logo ms-3'>
         <a href="/" className='navbar-brand'>
           <Logo/>
         </a>
       </div>
       <div className="browser-search ms-4 me-auto">
-        <SearchBar/>
+        <SearchBar onSearch={onSearch} />
       </div>
       <div className='nav ms-auto me-3'>
         <ul className='navbar-nav'>
@@ -33,15 +42,21 @@ function Navbar(){
         </ul>
       </div>
     </div>
+      <Results board={board} search={search}/>
+    </div>
   )
 }
 
-function Results(){
+export default Browser
+
+function Results({board, search}){
+
+  
+
   const [results, setResults] = useState([])
   
-  const params = new URLSearchParams(window.location.search)
-  const search = params.get('q')
-  const board = params.get('board')
+  
+  
 
 
   const sort = (array) => {
@@ -62,20 +77,8 @@ function Results(){
     return newArr;
   }
   
-  const getPages = (array) =>{
-    let count = 1
-    let start = true;
-    while(start){
-      const resultArr = paginate(array, count)
-      if(resultArr.length > 0){
-        count++
-      } else {
-        start = false;
-      }
-    }
-    return count;
-  }
   
+
   const fetchResults = async () =>{
     const array = await fetchApi(board, search)
     let sortedRes = sort(array);
@@ -85,7 +88,7 @@ function Results(){
 
   useEffect(()=>{
     fetchResults().then(()=>setStatus("No Results")).catch(()=>setStatus("Server Error"));
-  }, [])
+  })
 
   const StatusMsg = ()=>{
     return <h3>{status}</h3>

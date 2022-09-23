@@ -2,7 +2,7 @@ import {useRef, useEffect, useState} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FaSearch } from "react-icons/fa"
 
-function SearchBar(){
+function SearchBar({onSearch}){
   const [searchPhrase, setSearchPhrase] = useState("")
   const [board, setBoard] = useState("all")
 
@@ -35,14 +35,11 @@ function SearchBar(){
   const navigate = useNavigate()
   const handdlePost = (e) =>{
     e.preventDefault()
-    const children = e.target.children
-    const board = children[0].value
-    const search = children[1].value
-    console.log(board, search)
-    navigate({
-      pathname: "/search",
-      search: `?board=${board}&q=&${search}`
-    })
+    if(onSearch){
+      onSearch(board, searchPhrase)
+    } else{
+      navigate('/search', {state: {board: board, search: searchPhrase}})
+    }
   }
 
   const getParams = () =>{
