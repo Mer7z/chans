@@ -2,7 +2,7 @@ import {useRef, useEffect, useState} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FaSearch } from "react-icons/fa"
 
-function SearchBar({onSearch}){
+function SearchBar({onSearch, oldS, oldB}){
   const [searchPhrase, setSearchPhrase] = useState("")
   const [board, setBoard] = useState("all")
 
@@ -23,7 +23,16 @@ function SearchBar({onSearch}){
   })
 
   useEffect(()=>{
-    getParams()
+    if(oldS && oldB){
+      searchBar.current.value = oldS
+      for( const child of boardSelect.current.children){
+        if(child.value === oldB){
+          child.setAttribute('selected', 'selected')
+        }
+      }
+    } else if(oldS && !oldB){
+      boardSelect.current.children[0].setAttribute('selected', 'selected')
+    }
   }, [])
 
   const searchOnChange = e =>{
@@ -37,27 +46,8 @@ function SearchBar({onSearch}){
     e.preventDefault()
     if(onSearch){
       onSearch(board, searchPhrase)
-    } else{
-      navigate('/search', {state: {board: board, search: searchPhrase}})
-    }
-  }
-
-  const getParams = () =>{
-    const params = new URLSearchParams(window.location.search)
-    if(params.has('q') && searchBar.current){
-      const query = params.get('q')
-      searchBar.current.value = query
-    }
-    if(params.has('board') && boardSelect.current){
-      const query = params.get('board')
-      const board = boardSelect.current
-      const children = board.childNodes
-      children.forEach(child =>{
-        if(child.value === query){
-          child.setAttribute('selected', 'selected');
-        }
-      })
-    }
+    } 
+    navigate('/search', {state: {board: board, search: searchPhrase}})
   }
 
   return(
@@ -70,7 +60,6 @@ function SearchBar({onSearch}){
         <option value="c">c</option>
         <option value="d">d</option>
         <option value="e">e</option>
-        <option value="f">f</option>
         <option value="g">g</option>
         <option value="gif">gif</option>
         <option value="h">hr</option>

@@ -8,52 +8,32 @@ import fetchApi from '../../fetchApi'
 
 function Browser() {
   const { state } = useLocation();
-  const [board, setBoard] = useState('');
-  const [search, setSearch] = useState('');
+  var board = ""
+  var search = ""
+  const [old, setOld] = useState([])
   const [results, setResults] = useState([])
   const [status, setStatus] = useState("Loading")
-  var load = true;
+  
   const onSearch = (b, q) =>{
-    setBoard(b)
-    setSearch(q)
+    board = b
+    search = q
     setStatus("Loading")
-    load = false
+  }
+
+  const setInitialState = () =>{
+    board = state.board
+    search = state.search
+    if(old.length === 0){
+      setOld(search)
+    }
   }
 
   useEffect(()=>{
-    if(load){
-      setBoard(state.board)
-      setSearch(state.search)
-      load = false;
-    }
-  }, [])
+    setInitialState()
+    fetchResults();
+    console.log('Fetching...')
+  }, [state])
 
-  return (
-    <div id='browser'>
-      <div className='navbar navbar-expand-lg'>
-      <div className='browser-logo ms-3'>
-        <a href="/" className='navbar-brand'>
-          <Logo/>
-        </a>
-      </div>
-      <div className="browser-search ms-4 me-auto">
-        <SearchBar onSearch={onSearch} />
-      </div>
-      <div className='nav ms-auto me-3'>
-        <ul className='navbar-nav'>
-          <li><Link to="/about">About</Link></li>
-        </ul>
-      </div>
-    </div>
-      <Results board={board} search={search} results={results} setResults={setResults} status={status} setStatus={setStatus} />
-    </div>
-  )
-}
-
-export default Browser
-
-function Results({board, search, results, setResults, status, setStatus}){
-  
   const sort = (array) => {
     var newArr = array;
     for (let i = 0; i < newArr.length; i++) {
@@ -71,18 +51,51 @@ function Results({board, search, results, setResults, status, setStatus}){
     }
     return newArr;
   }
-  
-  
 
   const fetchResults = async () =>{
-    const array = await fetchApi(board, search)
-    let sortedRes = sort(array);
-    setResults(sortedRes);
+    try{
+      if(old !== search){
+        setResults([])
+        const array = await fetchApi(board, search)
+        setOld(search)
+        let sortedRes = sort(array);
+        setResults(sortedRes);
+      }
+    } catch (e){
+      console.log(e)
+      setStatus('Server Error')
+      return
+    }
+
+    setStatus('No results')
+ 
   }
 
-  useEffect(()=>{
-    fetchResults().then(()=>setStatus("No Results")).catch(()=>setStatus("Server Error"));
-  })
+  return (
+    <div id='browser'>
+      <div className='navbar navbar-expand-lg'>
+      <div className='browser-logo ms-3'>
+          <Link to="/">
+            <Logo/>
+          </Link>
+      </div>
+      <div className="browser-search ms-4 me-auto">
+        <SearchBar onSearch={onSearch} oldB={state.board} oldS={state.search} />
+      </div>
+      <div className='nav ms-auto me-3'>
+        <ul className='navbar-nav'>
+          <li><Link to="/about">About</Link></li>
+        </ul>
+      </div>
+    </div>
+      <Results board={board} search={search} results={results} setResults={setResults} status={status} setStatus={setStatus} />
+    </div>
+  )
+}
+
+export default Browser
+
+function Results({board, search, results, setResults, status, setStatus}){
 
   const StatusMsg = ()=>{
     return <h3>{status}</h3>
