@@ -54,6 +54,25 @@
   color: gray;
   font-size: 0.8rem;
 }
+.result-flex{
+  width: 100%;
+}
+.result-img-container{
+  flex: 1;
+  padding: 5px 0;
+  width: max-content;
+}
+.result-img-container img{
+  max-width: 170px;
+}
+.result-info-container{
+  flex: 3;
+  /* padding-left: 20px; */
+}
+.result-author{
+  color: #06e269a8;
+  margin: 0;
+}
 
 .no-results h3{
   color: var(--green);

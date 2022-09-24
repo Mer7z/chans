@@ -20,18 +20,27 @@ function Browser() {
     setStatus("Loading")
   }
 
+  const handler = (b, q) =>{
+    board = b
+    search = q
+  }
+
   const setInitialState = () =>{
-    board = state.board
-    search = state.search
-    if(old.length === 0){
-      setOld(search)
+    if(state.board && state.search){
+      board = state.board
+      search = state.search
+      if(old.length === 0){
+        setOld({search, board})
+      }
     }
   }
 
   useEffect(()=>{
     setInitialState()
-    fetchResults();
-    console.log('Fetching...')
+    if(search && board){
+      fetchResults()
+      console.log('Fetching...')
+    }
   }, [state])
 
   const sort = (array) => {
@@ -54,10 +63,10 @@ function Browser() {
 
   const fetchResults = async () =>{
     try{
-      if(old !== search){
+      if(old.search !== search || old.board !== board){
         setResults([])
         const array = await fetchApi(board, search)
-        setOld(search)
+        setOld({search, board})
         let sortedRes = sort(array);
         setResults(sortedRes);
       }
@@ -80,7 +89,7 @@ function Browser() {
           </Link>
       </div>
       <div className="browser-search ms-4 me-auto">
-        <SearchBar onSearch={onSearch} oldB={state.board} oldS={state.search} />
+        <SearchBar onSearch={onSearch} oldB={state.board} oldS={state.search} stateHanddler={handler} />
       </div>
       <div className='nav ms-auto me-3'>
         <ul className='navbar-nav'>
@@ -116,6 +125,8 @@ function Results({board, search, results, setResults, status, setStatus}){
               replies={res.replies}
               imageReplies={res.imgReplies}
               board={res.board}
+              author={res.author}
+              img={res.imgurl}
             />
           )
         ) :

@@ -2,7 +2,7 @@ import {useRef, useEffect, useState} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FaSearch } from "react-icons/fa"
 
-function SearchBar({onSearch, oldS, oldB}){
+function SearchBar({onSearch, oldS, oldB, stateHanddler}){
   const [searchPhrase, setSearchPhrase] = useState("")
   const [board, setBoard] = useState("all")
 
@@ -23,6 +23,9 @@ function SearchBar({onSearch, oldS, oldB}){
   })
 
   useEffect(()=>{
+    if(searchBar.current.value){
+      stateHanddler(boardSelect.current.value, searchBar.current.value)
+    }
     if(oldS && oldB){
       searchBar.current.value = oldS
       for( const child of boardSelect.current.children){
@@ -30,7 +33,7 @@ function SearchBar({onSearch, oldS, oldB}){
           child.setAttribute('selected', 'selected')
         }
       }
-    } else if(oldS && !oldB){
+    } else{
       boardSelect.current.children[0].setAttribute('selected', 'selected')
     }
   }, [])
