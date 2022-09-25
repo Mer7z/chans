@@ -1,7 +1,5 @@
 import React from 'react'
 
-import { useEffect } from 'react'
-
 function Result({siteLink, subject, quote, replies, imageReplies, board, author, img}) {
   let quoteSub = quote.length > 50 ? quote.substring(0, 50) + '...' : quote
   quoteSub = quoteSub.replace('<span class="quote">&gt;', '>')

@@ -8,36 +8,23 @@ import fetchApi from '../../fetchApi'
 
 function Browser() {
   const { state } = useLocation();
-  var board = ""
-  var search = ""
   const [old, setOld] = useState([])
   const [results, setResults] = useState([])
   const [status, setStatus] = useState("Loading")
   
-  const onSearch = (b, q) =>{
-    board = b
-    search = q
-    setStatus("Loading")
-  }
-
-  const handler = (b, q) =>{
-    board = b
-    search = q
-  }
-
   const setInitialState = () =>{
     if(state.board && state.search){
-      board = state.board
-      search = state.search
       if(old.length === 0){
-        setOld({search, board})
+        setOld({search: state.search, board: state.board})
       }
     }
   }
-
+  
   useEffect(()=>{
     setInitialState()
-    if(search && board){
+    if(state.search && state.board){
+      setResults([])
+      setStatus("Loading")
       fetchResults()
       console.log('Fetching...')
     }
@@ -63,10 +50,9 @@ function Browser() {
 
   const fetchResults = async () =>{
     try{
-      if(old.search !== search || old.board !== board){
-        setResults([])
-        const array = await fetchApi(board, search)
-        setOld({search, board})
+      if(old.search !== state.search || old.board !== state.board){
+        const array = await fetchApi(state.board, state.search)
+        setOld({search: state.search, board: state.board})
         let sortedRes = sort(array);
         setResults(sortedRes);
       }
@@ -89,7 +75,7 @@ function Browser() {
           </Link>
       </div>
       <div className="browser-search ms-4 me-auto">
-        <SearchBar onSearch={onSearch} oldB={state.board} oldS={state.search} stateHanddler={handler} />
+        <SearchBar oldB={state.board} oldS={state.search} />
       </div>
       <div className='nav ms-auto me-3'>
         <ul className='navbar-nav'>
@@ -97,19 +83,18 @@ function Browser() {
         </ul>
       </div>
     </div>
-      <Results board={board} search={search} results={results} setResults={setResults} status={status} setStatus={setStatus} />
+      <Results results={results} status={status} />
     </div>
   )
 }
 
 export default Browser
 
-function Results({board, search, results, setResults, status, setStatus}){
+function Results({results, status}){
 
   const StatusMsg = ()=>{
     return <h3>{status}</h3>
   }
-
   return (
     <>
     <div id="results">

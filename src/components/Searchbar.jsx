@@ -2,10 +2,7 @@ import {useRef, useEffect, useState} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FaSearch } from "react-icons/fa"
 
-function SearchBar({onSearch, oldS, oldB, stateHanddler}){
-  const [searchPhrase, setSearchPhrase] = useState("")
-  const [board, setBoard] = useState("all")
-
+function SearchBar({oldS, oldB}){
   const searchBar = useRef(null)
   const boardSelect = useRef(null)
   useEffect(()=>{
@@ -21,11 +18,7 @@ function SearchBar({onSearch, oldS, oldB, stateHanddler}){
       });
     }
   })
-
   useEffect(()=>{
-    if(searchBar.current.value){
-      stateHanddler(boardSelect.current.value, searchBar.current.value)
-    }
     if(oldS && oldB){
       searchBar.current.value = oldS
       for( const child of boardSelect.current.children){
@@ -33,30 +26,21 @@ function SearchBar({onSearch, oldS, oldB, stateHanddler}){
           child.setAttribute('selected', 'selected')
         }
       }
-    } else{
-      boardSelect.current.children[0].setAttribute('selected', 'selected')
-    }
+    } 
   }, [])
 
-  const searchOnChange = e =>{
-    setSearchPhrase(e.target.value)
-  }
-  const boardOnChange = e =>{
-    setBoard(e.target.value)
-  }
   const navigate = useNavigate()
   const handdlePost = (e) =>{
     e.preventDefault()
-    if(onSearch){
-      onSearch(board, searchPhrase)
-    } 
-    navigate('/search', {state: {board: board, search: searchPhrase}})
+    if(searchBar.current.value){
+      navigate('/search', {state: {board: boardSelect.current.value, search: searchBar.current.value}})
+    }
   }
 
   return(
     <div className='search-bar container-fluid d-flex'>
       <form onSubmit={handdlePost}>
-      <select ref={boardSelect} name="board" id="board" onChange={boardOnChange}>
+      <select ref={boardSelect} name="board" id="board">
         <option value="all">all</option>
         <option value="a">a</option>
         <option value="b">b</option>
@@ -134,7 +118,7 @@ function SearchBar({onSearch, oldS, oldB, stateHanddler}){
         <option value="x">x</option>
         <option value="xs">xs</option>
       </select>
-        <input ref={searchBar} type="search" name='q' id="search-bar" placeholder="Search in 4chan" onChange={searchOnChange} />
+        <input ref={searchBar} type="search" name='q' id="search-bar" placeholder="Search in 4chan" />
       <button className='btn' id='search-btn'>
         <FaSearch />
       </button>
