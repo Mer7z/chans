@@ -118,7 +118,7 @@ function SearchBar({oldS, oldB}){
         <option value="x">x</option>
         <option value="xs">xs</option>
       </select>
-        <input ref={searchBar} type="search" name='q' id="search-bar" placeholder="Search in 4chan" />
+        <input ref={searchBar} type="search" name='q' id="search-bar" placeholder="Search in 4chan" autoComplete='off' />
       <button className='btn' id='search-btn'>
         <FaSearch />
       </button>

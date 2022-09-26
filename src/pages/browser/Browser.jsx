@@ -10,7 +10,7 @@ function Browser() {
   const { state } = useLocation();
   const [old, setOld] = useState([])
   const [results, setResults] = useState([])
-  const [status, setStatus] = useState("Loading")
+  const [status, setStatus] = useState("")
   
   const setInitialState = () =>{
     if(state.board && state.search){
@@ -58,7 +58,7 @@ function Browser() {
       }
     } catch (e){
       console.log(e)
-      setStatus('Server Error')
+      setStatus("Couldn't connect to the server")
       return
     }
 
@@ -93,7 +93,17 @@ export default Browser
 function Results({results, status}){
 
   const StatusMsg = ()=>{
-    return <h3>{status}</h3>
+    return (
+      <div className='status-msg'>
+        {
+        status === "Loading" ? (
+          <img src="https://c.tenor.com/I6kN-6X7nhAAAAAi/loading-buffering.gif" alt="buffering" />
+        ) : (
+          <h3>{status}</h3>
+        )
+      }
+      </div>
+    )
   }
   return (
     <>
